@@ -8,23 +8,22 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DownloadcsvComponent } from './downloadcsv/downloadcsv.component';
-import { DownloadComponent } from './download/download.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
     DownloadcsvComponent,
     NotFoundComponent,
-    DownloadComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MaterialModule,
+    HttpClientModule,
     RouterModule.forRoot([
       { path: '', component: DownloadcsvComponent },
-      { path: 'download', component: DownloadComponent }, 
       { path: '**', component: NotFoundComponent }
     ])
   ],

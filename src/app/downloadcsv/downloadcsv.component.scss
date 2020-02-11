@@ -1,13 +1,24 @@
 .example-icon {
     padding: 0 14px;
   }
+
+  table {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    width: 100%;
+  }
   
   .example-spacer {
     flex: 1 1 auto;
   }
 
+  .tableshow {
+    margin-left: 40px;
+    margin-right: 40px;
+  }
 
-  .example-button-row button,
-.example-button-row a {
+  .example-button-row button{
+  margin-left: 8px;
   margin-right: 8px;
+  margin-top: 10px;
 }
