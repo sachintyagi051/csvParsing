@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as FileSaver from "file-saver";
@@ -47,20 +46,20 @@ export class DownloadcsvComponent implements OnInit {
     'catchPhrase',
     'bs',
   ];
-  dataSource: CSVData[] = [];
   constructor(private http: HttpClient) { }
   ngOnInit() {
     this.toGet();
   }
+
+  dataSource: CSVData[] = [];
 
   toGet() {
     this.http
       .get('https://jsonplaceholder.typicode.com/users')
       .subscribe(
         (res: any) => {
-          // console.log('result', res);
           if (res) {
-            this.dataSource = this.mapUrl(res);
+            // this.dataSource = this.mapUrl(res);
           }
         },
         (err: any) => {
@@ -94,6 +93,7 @@ export class DownloadcsvComponent implements OnInit {
     FileSaver.saveAs(blob, 'CSVdata' + '.csv');
   }
 
+
   uploadCSV(files: FileList) {
 
     if (files && files.length > 0) {
@@ -102,19 +102,47 @@ export class DownloadcsvComponent implements OnInit {
       reader.readAsText(file);
       reader.onload = () => {
         let csv: string = reader.result as string;
-
         let csvUpload: any = Papa.parse(csv, {
-          header: true,
-          complete: function (csv) {
-            console.log("Finished:", csv.data);
-           
-          }
+          header: true
         })
-        
-        this.dataSource = csvUpload.data;
+
+        // let csvMap = csvUpload.data.map(mapData => {
+        //   return {
+        //     'id': mapData.id,
+        //     'name': mapData.name,
+        //     'username': mapData.username,
+        //     'email': mapData.email,
+        //     'street': mapData.street,
+        //     'suite': mapData.suite,
+        //     'city': mapData.city,
+        //     'zipcode': mapData.zipcode,
+        //     'phone': mapData.phone,
+        //     'website': mapData.website,
+        //     'companyName': mapData.companyName,
+        //     'catchPhrase': mapData.catchPhrase,
+        //     'bs': mapData.bs
+        //   }
+        // })
+        // console.log('csvmap data', csvMap.length)
+
+        console.log('displayed columns', this.displayedColumns)
+        console.log('csvUpload columns', Object.keys(csvUpload.data[0]));
+        const test = Object.keys(csvUpload.data[0]);
+
+        // for (let i = 0; i <= test.length; i++) {
+        //   if (!(Object.keys(csvUpload.data[i]) == this.displayedColumns)) {
+        //     this.dataSource = csvUpload.data;
+        //   }
+        //   else
+        //     alert("Invalid data");
+        // }
+
+        if (Object.keys(csvUpload.data[0]) == this.displayedColumns) {
+          this.dataSource = csvUpload.data;
+        }
+        else alert("Invalid data");
       }
     }
-    
   }
 
 
@@ -137,6 +165,4 @@ export class DownloadcsvComponent implements OnInit {
       }
     });
   }
-
-
 }
