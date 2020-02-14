@@ -106,41 +106,23 @@ export class DownloadcsvComponent implements OnInit {
           header: true
         })
 
-        // let csvMap = csvUpload.data.map(mapData => {
-        //   return {
-        //     'id': mapData.id,
-        //     'name': mapData.name,
-        //     'username': mapData.username,
-        //     'email': mapData.email,
-        //     'street': mapData.street,
-        //     'suite': mapData.suite,
-        //     'city': mapData.city,
-        //     'zipcode': mapData.zipcode,
-        //     'phone': mapData.phone,
-        //     'website': mapData.website,
-        //     'companyName': mapData.companyName,
-        //     'catchPhrase': mapData.catchPhrase,
-        //     'bs': mapData.bs
-        //   }
-        // })
-        // console.log('csvmap data', csvMap.length)
+        let headers = this.displayedColumns;
+        let csvColumns = Object.keys(csvUpload.data[0]);
+        let missingColumns = [];
 
-        console.log('displayed columns', this.displayedColumns)
-        console.log('csvUpload columns', Object.keys(csvUpload.data[0]));
-        const test = Object.keys(csvUpload.data[0]);
+        headers.forEach(element => {
+          if (!csvColumns.includes(element)) {
+            missingColumns.push(element);
+            console.log("Incorrect")
+          }
+        });
 
-        // for (let i = 0; i <= test.length; i++) {
-        //   if (!(Object.keys(csvUpload.data[i]) == this.displayedColumns)) {
-        //     this.dataSource = csvUpload.data;
-        //   }
-        //   else
-        //     alert("Invalid data");
-        // }
-
-        if (Object.keys(csvUpload.data[0]) == this.displayedColumns) {
+        if (missingColumns.length) {
+          alert("Invalid CSV File / " + "'" + missingColumns + "'" + " column is missing");
+        }
+        else {
           this.dataSource = csvUpload.data;
         }
-        else alert("Invalid data");
       }
     }
   }
